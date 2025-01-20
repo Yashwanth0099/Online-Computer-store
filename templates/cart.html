@@ -1,0 +1,180 @@
+{% extends "layout.html" %}
+{% block title %}Cart{% endblock %}
+
+<!-- Add the following CSS styles -->
+<style>
+    /* Style the container */
+    .container-fluid {
+        padding: 20px;
+        background-color: #f8f9fa;
+    }
+
+    /* Style the title */
+    h2 {
+        text-align: left;
+        margin-top: 20px;
+        font-size: 28px;
+        color: #333;
+    }
+
+    /* Style the Clear Cart button */
+    .btn-clear-cart {
+        float: right;
+        margin-top: 10px;
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .btn-clear-cart:hover {
+        background-color: #c82333;
+    }
+
+    /* Style the table */
+    .table {
+        background-color: #fff;
+        color: #333;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Style the table headers */
+    .table th {
+        width: 20%;
+        background-color: #343a40;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    /* Style the More Details button */
+    .btn-more-details {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .btn-more-details:hover {
+        background-color: #0056b3;
+    }
+
+    /* Style the Quantity input and Update button */
+    .form-control {
+        width: 80px; /* Adjust quantity input width */
+    }
+
+    /* Style the Delete button */
+    .btn-delete {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .btn-delete:hover {
+        background-color: #c82333;
+    }
+
+    /* Style the Total section */
+    .total-section {
+        text-align: right;
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    /* Style the Proceed to Checkout button */
+    .btn-proceed-checkout {
+    background-color: #28a745; /* Change to green color */
+    color: #fff; /* Text color */
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    }
+
+    .btn-proceed-checkout:hover {
+    background-color: #1e7e34; /* Change to a darker shade of green on hover */
+    }
+</style>
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<div class="container-fluid" style="padding: 20px; background-color: #f8f9fa;">
+    <h2 style="text-align: center; margin-top: 20px; font-size: 28px; color: #28a745; font-family: 'Montserrat', sans-serif;">Cart Products</h2>
+    <div class="text-end" style="margin-bottom: 30px;">
+        <a href="{{url_for('shop.clear_cart')}}" class="btn btn-clear-cart" style="background-color: #dc3545; color: #fff; border: none; font-weight: bold; transition: background-color 0.3s; float: right; margin-top: 10px;">Clear Cart</a>
+    </div>
+    <br>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th style="align-items: center;">Quantity</th>
+                <th>Subtotal</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set ns = namespace(total=0) %}
+            {% for row in rows %}
+            <tr>
+                <td>{{row['pname']}}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('shop.update_cart') }}">
+                        <input type="hidden" name="product_id" value="{{ row['pid'] }}" />
+                        <div class="row">
+                            <div class="col">
+                                <input type="number" class="form-control" name="quantity" value="{{ row['quantity'] }}" />
+                            </div>
+                            <div class="col d-grid">
+                                <input type="submit" value="Update" class="btn btn-secondary btn-sm" />
+                            </div>
+                        </div>
+                    </form>
+                </td>
+                <td>${{ "{:.2f}".format(row['subtotal']) }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('shop.delete_from_cart') }}">
+                        <input type="hidden" name="product_id" value="{{ row['pid'] }}" />
+                        <input type="hidden" name="quantity" value="0" />
+                        <input type="submit" value="Delete" class="btn btn-danger btn-sm btn-delete" />
+                    </form>
+                </td>
+                {# https://stackoverflow.com/a/51880609 #}
+                {% set ns.total = ns.total + row['subtotal'] %}
+            </tr>
+            {% endfor %}
+            <tr>
+                <td class="text-end" colspan="100%">
+                    Total: ${{ "{:.2f}".format(ns.total or 0) }}
+                    {% if credit_value %}
+                        <br>Credit Line for the customer: $ {{ credit_value }}
+                        {% set ns.total = ns.total - credit_value %}
+                        <br>Final Total: ${{ "{:.2f}".format(ns.total or 0) }} 
+                    {% endif %}
+                </td>
+            </tr>
+            {% for row in rows %}
+            <tr>
+                <td class="text-end" colspan="100%">
+                    {% if loop.first %}
+                        <form action="{{ url_for('shop.proceed_to_checkout') }}" method="GET">
+                            <input type="hidden" name="bid" value="{{ row['bid'] }}" />
+                            <div class="d-grid mt-1">
+                                <input type="submit" value="Proceed to Checkout" style="padding: 8px 12px; font-size: 14px; color: white; background-color: #28a745; border: none; border-radius: 4px;" class="btn btn-light btn-sm btn-proceed-checkout" />
+                            </div>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

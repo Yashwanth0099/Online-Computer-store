@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block title %}Order Confirmation{% endblock %}
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<div class="container-fluid" style="padding: 20px; background-color: #f9f9fa; max-width: 800px; margin: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h2 style="text-align: center; margin-bottom: 30px; font-size: 26px; color: #28a745; font-family: 'Montserrat', sans-serif;">Order Confirmation</h2>
+    <p style="font-size: 24px; text-align: center; margin-bottom: 20px;">Thank you for your purchasing products at our shop, see you soon!</p>
+    
+    <table style="width: 100%; margin-bottom: 1rem; background-color: #fff; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="padding: 0.75rem; vertical-align: bottom; border-bottom: 2px solid #dee2e6; background-color: #007bff; color: #fff;">Order ID</th>
+                <th style="padding: 0.75rem; vertical-align: bottom; border-bottom: 2px solid #dee2e6; background-color: #007bff; color: #fff;">Total Spent</th>
+                <th style="padding: 0.75rem; vertical-align: bottom; border-bottom: 2px solid #dee2e6; background-color: #007bff; color: #fff;">Total Products</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6;">{{order.BID}}</td>
+                <td style="padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6;">${{ "{:.2f}".format(order['total_price']) }}</td>
+                <td style="padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6;">{{order.product_count}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table style="width: 100%; margin-bottom: 1rem; background-color: #fff; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="padding: 0.75rem; vertical-align: bottom; border-bottom: 2px solid #dee2e6; background-color: #007bff; color: #fff;">Item</th>
+                <th style="padding: 0.75rem; vertical-align: bottom; border-bottom: 2px solid #dee2e6; background-color: #007bff; color: #fff;">Quantity</th>
+                <th style="padding: 0.75rem; vertical-align: bottom; border-bottom: 2px solid #dee2e6; background-color: #007bff; color: #fff;">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set ns = namespace(total=0) %}
+            {% for row in rows %}
+            <tr>
+                <td style="padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6;">{{row["name"]}}</td>
+                <td style="padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; width: 10em;">{{row["quantity"]}}</td>
+                <td style="padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6;">${{ "{:.2f}".format(row['subtotal']) }}</td>
+                {% set ns.total = ns.total + row['subtotal'] %}
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3" style="padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; text-align: end; font-weight: bold;">
+                    {% if credit_value %}
+                        Total: ${{ "{:.2f}".format(ns.total or 0) }}
+                        <br>Credit Line for the customer: $ {{ credit_value }}
+                        {% set ns.total = ns.total - credit_value %}
+                        <br>Final Total: ${{ "{:.2f}".format(ns.total or 0) }} 
+                    {% else %}
+                        Total: ${{ "{:.2f}".format(ns.total or 0) }}
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <h3 style="font-size: 1.5rem; color: #343a40;">Shipping and Payment Details</h3>
+        <p style="font-size: 1.25rem;">Order will be shipped in 3-4 business days</p>
+        <p style="font-size: 1.25rem;">${{ "{:.2f}".format(ns.total or 0) }} paid on {{order.TDate}} for Order ID: {{order.BID}}</p>
+    </div>
+</div>
+{% endblock %}

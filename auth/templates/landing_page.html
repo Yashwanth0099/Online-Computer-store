@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}Welcome to GadgetGrid{% endblock %}
+{% block content %}
+<div class="container-fluid" style="padding: 0; margin: 0; height: 100vh; background: url('https://your-image-url.com/landing-background.jpg') no-repeat center center; background-size: cover;">
+    <div style="background: rgba(173, 216, 230, 0.7); height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+        <h1 style="font-size: 3.5rem; font-weight: bold; margin-bottom: 0; color: #008000;">Welcome to GadgetGrid</h1>
+        <p style="font-size: 1.5rem; margin-top: 0.5rem; color: #333;">The ultimate destination for your tech needs</p>
+        <a href="{{url_for('shop.shop_list')}}" class="btn" style="margin-top: 20px; background-color: red; color: white; padding: 10px 20px; font-size: 1.25rem; border-radius: 5px; text-decoration: none;">Start Shopping</a>
+    </div>
+</div>
+{% endblock %}

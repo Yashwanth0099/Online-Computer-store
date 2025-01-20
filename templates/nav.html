@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<nav class="navbar navbar-expand-lg" style="background-color: black;">
+    <div class="container-fluid">
+        <a class="navbar-brand text-white" href="{{url_for('shopindex.index')}}">GadgetGrid</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% if not current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{url_for('auth.login')}}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{url_for('auth.register')}}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{url_for('shop.shop_list')}}">Shop</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{url_for('auth.landing_page')}}">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{url_for('shop.shop_list')}}">
+                        <i class="fas fa-store"></i> Shop
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{url_for('shop.cart')}}">
+                        <i class="fas fa-shopping-cart"></i> Cart
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{url_for('shop.orders')}}">
+                        <i class="fas fa-box"></i> Orders
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{url_for('auth.profile')}}">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{url_for('auth.logout')}}">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

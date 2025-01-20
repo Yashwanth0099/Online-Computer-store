@@ -1,0 +1,20 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="flashes">
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category or 'info' }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+<script>
+    // Add JavaScript to remove flash messages after 2 seconds
+    setTimeout(function() {
+        var flashes = document.querySelectorAll('.flashes .alert');
+        flashes.forEach(function(flash) {
+            flash.remove();
+        });
+    }, 2000); // 2000 milliseconds = 2 seconds
+</script>
+{% endif %}
+{% endwith %}

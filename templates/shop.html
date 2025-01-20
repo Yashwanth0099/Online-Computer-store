@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block title %}Shop{% endblock %}
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<div class="container-fluid" style="padding: 20px; background-color: #f9f9f9;">
+    <div class="header" style="font-size: 32px; margin-bottom: 40px; color: #28a745; text-align: center; font-family: 'Montserrat', sans-serif;">
+        Shop Our Latest Products
+    </div>
+    
+    <form class="form-filter" style="text-align: center; margin-bottom: 30px; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px;">
+            <div style="flex-grow: 1; min-width: 120px;">
+                <input type="text" name="name" class="form-control" id="name" placeholder="Product Name" value="{{request.args.get('name') or ''}}" style="width: 100%;">
+            </div>
+    
+            <div style="flex-grow: 1; min-width: 120px;">
+                <select name="category" class="form-control" id="category" style="width: 100%;">
+                    <option value="">All Categories</option>
+                    <option value="printer">Printer</option>
+                    <option value="laptop">Laptop</option>
+                    <option value="computer">Computer</option>
+                </select>
+            </div>
+    
+            <div style="flex-grow: 1; min-width: 120px;">
+                <input class="form-control" type="number" min="1" max="100" id="limit" name="limit" value="{{request.args.get('limit') or '10'}}" style="width: 100%;">
+            </div>
+    
+            <button type="submit" class="btn btn-primary" style="padding: 8px 20px; font-size: 16px;">Filter</button>
+            <a href="?" class="btn btn-secondary" style="padding: 8px 20px; font-size: 16px;">Reset</a>
+        </div>
+    </form>
+    
+    
+    
+    
+
+    <div class="row">
+        {% for row in rows %}
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card" style="background-color: white; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+                <div class="card-header" style="background-color: #343a40; color: white; font-weight: bold; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                    Stock: {{row["pquantity"]}}
+                </div>
+                <div class="card-body" style="padding: 15px;">
+                    <h5 class="card-title" style="font-weight: bold; font-size: 18px; color: #333;">{{row["pname"]}}</h5>
+                    {% if row["image"] %}
+                    <div style="height: 200px; overflow: hidden; margin-bottom: 10px;">
+                        <img src="{{row['image']}}" alt="{{row['pname']}}" style="width: 100%; object-fit: cover; height: 100%;" />
+                    </div>
+                    {% endif %}
+                    <form action="{{url_for('shop.productdetail')}}" method="GET">
+                        <input type="hidden" name="pid" value="{{row['pid']}}" />
+                        <button type="submit" class="btn btn-light" style="display: block; width: 100%; margin-top: 10px;">More Details</button>
+                    </form>
+                </div>
+                <div class="card-footer" style="padding: 10px 15px;">
+                    <div style="margin-bottom: 10px;">
+                        <span class="cost" style="font-size: 16px; font-weight: bold;">Cost: ${{ row["pprice"] }}</span>
+                        {% if row["pid"] in offer_prices and (customer_status == "Gold" or customer_status == "Platinum") %}
+                        <br><span class="discounted-cost" style="font-size: 16px; font-weight: bold;">Discounted Cost: ${{ offer_prices[row["pid"]] }}</span>
+                        {% else %}
+                        <br><br>
+                        {% endif %}
+                    </div>
+                    
+                    <form action="{{url_for('shop.cart')}}" method="POST" style="display: flex; justify-content: center; align-items: center;">
+                        <input type="hidden" name="pid" value="{{row['pid']}}" />
+                        <input type="number" class="form-control" name="quantity" value="1" style="width: 60px; text-align: center; margin-right: 10px;" />
+                        <button type="submit" class="btn btn-primary" style="padding: 8px 12px; font-size: 14px; color: white; background-color: #28a745; border: none; border-radius: 4px;">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+.container-fluid .h1 {
+    text-align: center;
+    color: green; /* Montserrat with green color for the 'Orders' heading */
+    margin-bottom: 30px;
+    margin-top:10px;
+    font-size: 2.5rem; /* Slightly larger font size */
+    font-family: 'Montserrat', sans-serif;
+}
+
+.table {
+    background-color: #fff;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd; /* Lighter border color for less visual weight */
+    font-family: 'Montserrat', sans-serif; /* Consistent font for the table */
+}
+
+.table th {
+    background-color: #000; /* Black header background */
+    color: #fff; /* White header font */
+    padding: 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-weight: 500; /* Medium font weight for the header */
+}
+
+.table td {
+    padding: 15px;
+    border: 1px solid #ddd;
+    font-weight: 400; /* Regular font weight for table data */
+}
+
+/* Ensure the text color on dark grey rows is visible */
+.table tbody tr:nth-child(odd) {
+    background-color: #343a40; /* Dark grey for odd rows, you may adjust this color as needed */
+    color: #ffffff; /* White text for contrast */
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #fff; /* White for even rows */
+    color: #333; /* Dark text for contrast */
+}
+
+.table a {
+    color: #17a2b8; /* Brighter color for links for better visibility */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.table a:hover {
+    color: #138496; /* Darker shade on hover for links */
+    text-decoration: underline;
+}
+</style>
+
+{% from "_table_helper.html" import render_table %}
+{% set view = "shop.order" %}
+{{ render_table("Orders", rows, ["user_id"], view) }}
+{% endblock %}

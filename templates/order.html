@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+{% block title %}Order - #{{ request.args.get("id", "") }}{% endblock %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<!-- content -->
+{% block content %}
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        background-color: #f4f4f4;
+    }
+
+    /* Table styles */
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: #fff;
+        border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+        background-color: #000; /* Black background for header */
+        color: #fff; /* White text for header */
+    }
+
+    .table tbody+tbody {
+        border-top: 2px solid #dee2e6;
+    }
+
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #dee2e6;
+    }
+
+    .table-bordered thead th,
+    .table-bordered thead td {
+        border-bottom-width: 2px;
+    }
+
+    /* Additional styles for visual appeal */
+    .text-light {
+        color: #f8f9fa;
+    }
+
+    .lead {
+        font-size: 1.25rem;
+        font-weight: 300;
+    }
+
+    .ms-3 {
+        margin-left: 1rem;
+    }
+
+    /* Consistent header styling with orders.html */
+    .h4, .h5, .h1 {
+        margin-bottom: 0.5rem;
+        font-family: 'Montserrat', sans-serif; /* Montserrat font for headers */
+        color: #343a40; /* Dark text for headers */
+        font-weight: 400;
+    }
+
+    .h1 { /* Main page title */
+        font-size: 2.5rem;
+        color: green; 
+        text-align: center;
+        margin-top:10px;
+        margin-bottom: 10px;;
+    }
+
+    .h4 {
+        font-size: 1.75rem;
+    }
+
+    .h5 {
+        font-size: 1.25rem;
+    }
+
+    /* Shipping details styles */
+    .shipping-details {
+        text-align: center;
+        background-color: #f8f9fa;
+        padding: 20px;
+    }
+
+    /* Consistent total cost styling with orders.html */
+    .total-cost {
+        background-color: #495057; /* Dark background for contrast */
+        color: #fff; /* White text for visibility */
+        padding: 0.5rem 1rem;
+        margin-top: 1rem;
+        display: inline-block;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* Responsive design adjustments */
+    @media (max-width: 768px) {
+        .ms-3 {
+            margin-left: 0.5rem;
+        }
+    }
+</style>
+
+{% from "_table_helper.html" import render_table %}
+{{ render_table("Order", rows, []) }}
+
+<div class="text-light lead ms-3">Total Cost: ${{ total }}</div>
+
+<div class="shipping-details">
+    <div class="h4">Shipping and Payment Details</div><br>
+
+    <div class="h5">Order Shipped at: {{ ship["SAName"] }}</div>
+    <div class="h5">Order Date: {{ ship["TDate"] }}</div>
+
+    <div class="h5">Amount paid on {{ ship["TDate"] }}, it will be delivered at {{ ship["SAName"] }}</div>
+</div>
+{% endblock %}

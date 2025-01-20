@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block title %}Shipping and Payment Information{% endblock %}
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<div class="container-fluid" style="padding: 20px;">
+    <div class="h1" style="text-align: center; margin-bottom: 30px; font-size: 28px; color: #28a745; font-family: 'Montserrat', sans-serif;">Shipping and Payment Information</div>
+    <form method="POST" style="background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
+        <div class="row">
+            <!-- Left Column for Shipping Information -->
+            <div class="col-md-6" style="padding: 15px;">
+            <div class="form-group mb-3">
+                <label class="form-label" for="email">Email</label>
+                <input type="text" name="email" class="form-control" id="email" placeholder="Email" value="{{row.email}}" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="shipname">Shipping Address Name</label>
+                <input type="text" name="shipname" class="form-control" id="shipname" placeholder="Shipping Address Name" value="{{shipname}}" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="recepientname">Recipient Name</label>
+                <input type="text" name="recepientname" class="form-control" id="recepientname" placeholder="Recipient Name" value="{{recepientname}}" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="street">Street</label>
+                <input type="text" name="street" class="form-control" id="street" placeholder="Street" value="{{street}}" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="snumber">Street Number</label>
+                <input type="text" name="snumber" class="form-control" id="snumber" placeholder="Street Number" value="{{snumber}}" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="city">City</label>
+                <input type="text" name="city" class="form-control" id="city" placeholder="City" value="{{city}}" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="zip">Zip</label>
+                <input type="text" name="zip" class="form-control" id="zip" placeholder="Zip" value="{{zip}}" required />
+            </div>
+             
+            <div class="form-group mb-3">
+                <label class="form-label" for="state">State</label>
+                <input type="text" name="state" class="form-control" id="state" placeholder="State" value="{{state}}" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="country">Country</label>
+                <input type="text" name="country" class="form-control" id="country" placeholder="Country" value="{{country}}" required />
+            </div>
+
+        </div>
+
+        <div class="col-md-6" style="padding: 15px;">
+            <div class="form-group mb-3">
+                <label class="form-label" for="cc_number">Credit Card Number</label>
+                <input type="text" name="cc_number" class="form-control" id="cc_number" placeholder="Credit Card Number" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="cc_security_number">Credit Card Security Number</label>
+                <input type="text" name="cc_security_number" class="form-control" id="cc_security_number" placeholder="Security Number" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="cc_owner_name">Credit Card Owner Name</label>
+                <input type="text" name="cc_owner_name" class="form-control" id="cc_owner_name" placeholder="Owner Name" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="cc_type">Credit Card Type</label>
+                <input type="text" name="cc_type" class="form-control" id="cc_type" placeholder="Credit Card Type" value="{{cc_type}}" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="cc_billing_address">Billing Address</label>
+                <input type="text" name="cc_billing_address" class="form-control" id="cc_billing_address" placeholder="Billing Address" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" for="cc_exp_date">Credit Card Expiry Date</label>
+                <input type="text" name="cc_exp_date" class="form-control" id="cc_exp_date" placeholder="MM/YYYY" required />
+            </div>
+            </div>
+            </div>
+            {# use this for country/state selection #}
+            {# include "country_state_selector.html" #}
+            <input type="submit" value="Place Order" class="btn btn-primary" style="padding: 8px 12px; font-size: 14px; color: white; background-color: #28a745; border: none; border-radius: 4px;" />
+        </form>
+    </div>
+</div>
+{% endblock %}

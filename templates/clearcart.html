@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}Cart{% endblock %}
+
+<!-- content -->
+{% block content %}
+<div class="container-fluid">
+    <div>
+        <h2 text-align="left" mt-3>Cart Products</h2>
+        <a href="{{url_for('shop.clear_cart')}}" class="btn btn-primary ms-10">Clear Cart</a>
+    </div>
+    <table class="table text-light bg-dark">
+        <thread>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Actions</th>
+            </tr>
+        </thread>
+    </table>
+</div>
+{% endblock %}

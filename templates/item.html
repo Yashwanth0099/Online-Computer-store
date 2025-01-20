@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}{{type}} Item{% endblock %}
+{% block content %}
+{% from "_formhelpers.html" import render_field %}
+<div class="container-fluid">
+    <div class="h3">{{type}} Item</div>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{render_field(form.ptype)}}
+        {{render_field(form.pname)}}
+        {{render_field(form.pprice)}}
+        {{render_field(form.description)}}
+        {{render_field(form.pquantity)}}
+        {{render_field(form.image)}}
+        {{form.submit(class="btn btn-primary")}}
+    </form>
+</div>
+{% endblock %}
