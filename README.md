@@ -1,5 +1,4 @@
 # GadgetGrid: Online Computer Store
-
 ## Overview
 GadgetGrid is an e-commerce platform designed to provide a seamless shopping experience for tech enthusiasts. Users can browse, filter, and purchase computer-related products, including laptops, desktops, and printers. The platform prioritizes usability, performance, and scalability, ensuring an efficient and user-friendly experience.
 
